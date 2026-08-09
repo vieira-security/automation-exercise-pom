@@ -1,0 +1,24 @@
+{
+  "name": "automation-exercise-pom",
+  "version": "1.0.0",
+  "description": "Suíte de testes E2E para automationexercise.com usando Playwright + TypeScript com Page Object Model.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "keywords": ["playwright", "typescript", "e2e", "pom", "test-automation"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1",
+    "playwright": "^1.61.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}

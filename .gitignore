@@ -1,0 +1,24 @@
+node_modules/
+
+# Configuração local de ferramentas (não é do projeto)
+.claude/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Build / TS
+*.tsbuildinfo
+dist/
+
+# Env
+.env
+.env.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
