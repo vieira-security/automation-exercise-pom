@@ -9,7 +9,7 @@ Suíte de testes end-to-end para o site público [automationexercise.com](https:
 
 O objetivo do projeto não foi só "escrever teste que passa", mas reproduzir um cenário real de automação contra um site de terceiros: instável, cheio de scripts de anúncio, com bugs no próprio front-end. A seção [Desafios técnicos resolvidos](#-desafios-técnicos-resolvidos) documenta as investigações reais feitas pra deixar a suíte estável.
 
-## 📋 Cenários cobertos
+## Cenários cobertos
 
 Os 10 primeiros casos de teste oficiais do site (de uma lista pública de 26), um por arquivo:
 
@@ -26,7 +26,7 @@ Os 10 primeiros casos de teste oficiais do site (de uma lista pública de 26), u
 | 9 | `09-search-product.spec.ts` | Busca de produto | Busca → "Searched Products" com resultados |
 | 10 | `10-subscription-home.spec.ts` | Assinatura de newsletter (home) | Preenchimento de email → mensagem de sucesso |
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ```
 src/
@@ -50,7 +50,7 @@ fixtures/         # arquivos de apoio (ex: upload de teste no Contact Us)
 
 Cada Page Object herda de `BasePage` e expõe só **ações** (`click...`, `fill...`) e **verificações** (`verify...`) com nomes que descrevem intenção, não implementação — o teste em si lê quase como os passos do caso de teste oficial. Todos os métodos e locators têm comentários explicando o *porquê*, não só o *o quê* (essencial num site de terceiros, onde o motivo de um locator ser escrito de um jeito específico nem sempre é óbvio).
 
-## 🚀 Como rodar
+## Como rodar
 
 ```bash
 npm install
@@ -64,7 +64,7 @@ npm run report                # abre o último relatório HTML
 
 > **Nota:** os testes rodam contra o site real (`baseURL` em `playwright.config.ts`), não um mock. Rodar tudo em paralelo (`fullyParallel: true`, padrão do projeto) é mais rápido, mas se notar flakiness ao rodar muitos workers ao mesmo tempo contra o site, tente `npx playwright test --workers=1`.
 
-## 🔍 Desafios técnicos resolvidos
+## Desafios técnicos resolvidos
 
 Esta seção documenta bugs reais encontrados **por investigação empírica** (inspecionando o DOM, os eventos do jQuery e as respostas de rede em tempo real), não achismo — cada hipótese abaixo foi testada rodando o fluxo repetidas vezes contra o site.
 
@@ -124,19 +124,19 @@ await blockAds(page);
 
 Validado rodando o mesmo cenário 8x seguidas sem falha (contra ~20% de falha antes do fix).
 
-## 🧪 Metodologia de validação
+## Metodologia de validação
 
 Nenhuma correção acima foi considerada "pronta" só por parecer certa no código — cada uma foi:
 1. Reproduzida contra o site real com um script de diagnóstico isolado;
 2. Corrigida;
 3. Re-executada múltiplas vezes seguidas (não só uma) pra descartar coincidência, já que boa parte dos bugs aqui eram condições de corrida.
 
-## 📦 Stack
+## Stack
 
 - **[Playwright](https://playwright.dev/)** — automação de browser e test runner
 - **TypeScript** — tipagem estática nas Page Objects e nos testes
 - **Page Object Model** — separação entre "o que o teste faz" (spec) e "como interagir com a página" (page object)
 
-## 📄 Licença
+## Licença
 
 ISC
