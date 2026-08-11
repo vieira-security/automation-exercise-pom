@@ -5,6 +5,8 @@ export const FIRST_NAME = 'Gabriel';
 export const LAST_NAME = 'Sousa';
 export const COMPANY = 'Minha Empresa';
 
+export const TITLE = 'Mr';
+
 export const PASSWORD = 'Senha123!';
 // Só minúsculas, sem número/símbolo — usada em 11-weak-password.spec.ts.
 export const WEAK_PASSWORD = 'senhafraca';

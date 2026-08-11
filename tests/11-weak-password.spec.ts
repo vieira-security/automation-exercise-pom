@@ -9,6 +9,7 @@ import {
   FIRST_NAME,
   LAST_NAME,
   COMPANY,
+  TITLE,
   WEAK_PASSWORD,
   DATE_OF_BIRTH,
   ADDRESS,
@@ -52,7 +53,7 @@ test('Register User with a weak (all lowercase) password', async ({ page }) => {
   });
 
   await test.step('Preencher os dados da conta com senha fraca (só minúsculas)', async () => {
-    await accountInfoPage.selectTitle('Mr');
+    await accountInfoPage.selectTitle(TITLE);
     await accountInfoPage.fillPassword(WEAK_PASSWORD);
     await accountInfoPage.fillDateOfBirth(DATE_OF_BIRTH.day, DATE_OF_BIRTH.month, DATE_OF_BIRTH.year);
     await accountInfoPage.checkNewsletterAndOffers();

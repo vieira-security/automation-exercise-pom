@@ -9,6 +9,7 @@ import {
   FIRST_NAME,
   LAST_NAME,
   COMPANY,
+  TITLE,
   PASSWORD,
   DATE_OF_BIRTH,
   ADDRESS,
@@ -50,7 +51,7 @@ test('Register User', async ({ page }) => {
   });
 
   await test.step('Preencher todos os dados da conta', async () => {
-    await accountInfoPage.selectTitle('Mr');
+    await accountInfoPage.selectTitle(TITLE);
     await accountInfoPage.fillPassword(PASSWORD);
     await accountInfoPage.fillDateOfBirth(DATE_OF_BIRTH.day, DATE_OF_BIRTH.month, DATE_OF_BIRTH.year);
     await accountInfoPage.checkNewsletterAndOffers();
