@@ -1,11 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-/**
- * Page Object da página /product_details/{id}, com nome, categoria,
- * preço, disponibilidade, condição e marca do produto, além da ação de
- * adicionar ao carrinho. Usada no cenário 8.
- */
 export class ProductDetailsPage extends BasePage {
   private readonly productName: Locator = this.page.locator('.product-information h2');
   private readonly productCategory: Locator = this.page.locator('.product-information p').filter({ hasText: 'Category:' });
@@ -20,15 +15,10 @@ export class ProductDetailsPage extends BasePage {
     super(page);
   }
 
-  /** Verifica que o nome do produto (heading) está visível. */
   async verifyProductNameVisible(): Promise<void> {
     await expect(this.productName).toBeVisible();
   }
 
-  /**
-   * Verifica que todos os detalhes do produto exigidos pelo cenário 8
-   * estão visíveis: nome, categoria, preço, disponibilidade, condição e marca.
-   */
   async verifyProductDetailsVisible(): Promise<void> {
     await expect(this.productName).toBeVisible();
     await expect(this.productCategory).toBeVisible();
@@ -42,12 +32,10 @@ export class ProductDetailsPage extends BasePage {
     await expect(this.productBrand).toContainText('Brand:');
   }
 
-  /** Preenche o campo de quantidade antes de adicionar ao carrinho. */
   async fillQuantity(quantity: string): Promise<void> {
     await this.quantityInput.fill(quantity);
   }
 
-  /** Clica no botão "Add to cart". */
   async clickAddToCart(): Promise<void> {
     await this.addToCartButton.click();
   }
