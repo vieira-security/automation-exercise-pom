@@ -1,6 +1,7 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../src/pages/HomePage';
 import { blockAds } from '../src/utils/blockAds';
+import { generateRandomEmail } from './testData';
 
 test('Verify Subscription in home page', async ({ page }) => {
   await blockAds(page);
@@ -13,7 +14,7 @@ test('Verify Subscription in home page', async ({ page }) => {
   });
 
   await test.step('Rolar até o rodapé e assinar com um email', async () => {
-    await homePage.subscribeWithEmail(`gabriel${Date.now()}@teste.com`);
+    await homePage.subscribeWithEmail(generateRandomEmail());
   });
 
   await test.step('Verificar mensagem de sucesso da assinatura', async () => {

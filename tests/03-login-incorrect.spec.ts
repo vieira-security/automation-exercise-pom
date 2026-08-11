@@ -2,6 +2,9 @@ import { test } from '@playwright/test';
 import { HomePage } from '../src/pages/HomePage';
 import { SignupLoginPage } from '../src/pages/SignupLoginPage';
 
+const INVALID_EMAIL = 'naoexiste@teste.com';
+const INVALID_PASSWORD = 'senhaErrada123';
+
 test('Login User with incorrect email and password', async ({ page }) => {
   const homePage = new HomePage(page);
   const signupLoginPage = new SignupLoginPage(page);
@@ -17,7 +20,7 @@ test('Login User with incorrect email and password', async ({ page }) => {
   });
 
   await test.step('Tentar login com email e senha incorretos', async () => {
-    await signupLoginPage.login('naoexiste@teste.com', 'senhaErrada123');
+    await signupLoginPage.login(INVALID_EMAIL, INVALID_PASSWORD);
   });
 
   await test.step('Verificar mensagem de erro visível', async () => {

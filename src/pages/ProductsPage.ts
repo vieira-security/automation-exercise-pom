@@ -7,21 +7,15 @@ import { BasePage } from './BasePage';
  * primeiro produto) e 9 (buscar produto).
  */
 export class ProductsPage extends BasePage {
-  private readonly allProductsHeading: Locator;
-  private readonly searchInput: Locator;
-  private readonly searchButton: Locator;
-  private readonly searchedProductsHeading: Locator;
-  private readonly productList: Locator;
-  private readonly viewProductLinks: Locator;
+  private readonly allProductsHeading: Locator = this.page.getByText('All Products');
+  private readonly searchInput: Locator = this.page.locator('#search_product');
+  private readonly searchButton: Locator = this.page.locator('#submit_search');
+  private readonly searchedProductsHeading: Locator = this.page.getByText('Searched Products');
+  private readonly productList: Locator = this.page.locator('.product-image-wrapper');
+  private readonly viewProductLinks: Locator = this.page.getByRole('link', { name: 'View Product' });
 
   constructor(page: Page) {
     super(page);
-    this.allProductsHeading = page.getByText('All Products');
-    this.searchInput = page.locator('#search_product');
-    this.searchButton = page.locator('#submit_search');
-    this.searchedProductsHeading = page.getByText('Searched Products');
-    this.productList = page.locator('.product-image-wrapper');
-    this.viewProductLinks = page.getByRole('link', { name: 'View Product' });
   }
 
   /** Verifica que o heading "All Products" está visível. */
@@ -45,7 +39,12 @@ export class ProductsPage extends BasePage {
     await expect(this.searchedProductsHeading).toBeVisible();
   }
 
-  /** Clica no link "View Product" de um produto específico, pelo seu ID numérico. */
+  /**
+   * Clica no link "View Product" de um produto específico, pelo seu ID numérico.
+   * Locator dinâmico (depende de um parâmetro em tempo de execução): por
+   * isso continua sendo construído aqui dentro do método, e não como campo
+   * da classe.
+   */
   async viewProductDetails(productId: number): Promise<void> {
     await this.page.locator(`a[href="/product_details/${productId}"]`).click();
   }

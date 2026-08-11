@@ -8,35 +8,24 @@ import { BasePage } from './BasePage';
  * refletem na home (ex: "Logged in as ...").
  */
 export class HomePage extends BasePage {
-    private readonly signupLoginLink: Locator;
-    private readonly categorySidebar: Locator;
-    private readonly contactUsLink: Locator;
-    private readonly testCases: Locator;
-    private readonly products: Locator;
-    private readonly subscribeEmailInput: Locator;
-    private readonly subscribeButton: Locator;
-    private readonly subscribeSucessMsg: Locator;
-    private readonly loggedInAsText: Locator;
-    private readonly deleteAccountLink: Locator;
-    private readonly logoutLink: Locator;
+    private readonly signupLoginLink: Locator = this.page.locator('a[href="/login"]');
+    private readonly categorySidebar: Locator = this.page.locator('.left-sidebar h2').first();
+    private readonly contactUsLink: Locator = this.page.locator('a[href="/contact_us"]');
+    // Restrito ao menu de navegação: a home também tem botões
+    // promocionais "Test Cases" (class="test_cases_list") no carrossel
+    // de itens em destaque com o mesmo href, o que faria esse locator
+    // bater em 4 elementos (violação de strict mode do Playwright).
+    private readonly testCases: Locator = this.page.locator('.shop-menu a[href="/test_cases"]');
+    private readonly products: Locator = this.page.locator('a[href="/products"]');
+    private readonly subscribeEmailInput: Locator = this.page.locator('#susbscribe_email');
+    private readonly subscribeButton: Locator = this.page.locator('#subscribe');
+    private readonly subscribeSucessMsg: Locator = this.page.locator('#success-subscribe');
+    private readonly loggedInAsText: Locator = this.page.getByText('Logged in as');
+    private readonly deleteAccountLink: Locator = this.page.locator('a[href="/delete_account"]');
+    private readonly logoutLink: Locator = this.page.locator('a[href="/logout"]');
 
     constructor(page: Page) {
         super(page);
-        this.signupLoginLink = page.locator('a[href="/login"]');
-        this.categorySidebar = page.locator('.left-sidebar h2').first();
-        this.contactUsLink = page.locator('a[href="/contact_us"]');
-        // Restrito ao menu de navegação: a home também tem botões
-        // promocionais "Test Cases" (class="test_cases_list") no carrossel
-        // de itens em destaque com o mesmo href, o que faria esse locator
-        // bater em 4 elementos (violação de strict mode do Playwright).
-        this.testCases = page.locator('.shop-menu a[href="/test_cases"]');
-        this.products = page.locator('a[href="/products"]');
-        this.subscribeEmailInput = page.locator('#susbscribe_email');
-        this.subscribeButton = page.locator('#subscribe');
-        this.subscribeSucessMsg = page.locator('#success-subscribe');
-        this.loggedInAsText = page.getByText('Logged in as');
-        this.deleteAccountLink = page.locator('a[href="/delete_account"]');
-        this.logoutLink = page.locator('a[href="/logout"]');
     }
 
     /** Navega direto para a home page ('/'). */
@@ -55,6 +44,7 @@ export class HomePage extends BasePage {
      * de novo (ver subscription.js), então chame logo depois de subscribeWithEmail().
      */
     async verifySubscribeSuccess(): Promise<void> {
+        await expect(this.subscribeSucessMsg).toBeVisible();
         await expect(this.subscribeSucessMsg).toContainText('You have been successfully subscribed!');
     }
 

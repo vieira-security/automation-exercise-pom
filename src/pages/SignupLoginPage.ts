@@ -9,31 +9,19 @@ import { BasePage } from './BasePage';
  * o fluxo completo de login.
  */
 export class SignupLoginPage extends BasePage {
-    private readonly newUserSignupHeading: Locator;
-    private readonly signupNameInput: Locator;
-    private readonly signupEmailInput: Locator;
-    private readonly signupButton: Locator;
-    private readonly loginHeading: Locator;
-    private readonly loginEmailInput: Locator;
-    private readonly loginPasswordInput: Locator;
-    private readonly loginButton: Locator;
-    private readonly loginErrorMsg: Locator;
-    private readonly signupErrorMsg: Locator;
+    private readonly newUserSignupHeading: Locator = this.page.getByText('New User Signup');
+    private readonly signupNameInput: Locator = this.page.locator('input[data-qa="signup-name"]');
+    private readonly signupEmailInput: Locator = this.page.locator('input[data-qa="signup-email"]');
+    private readonly signupButton: Locator = this.page.locator('button[data-qa="signup-button"]');
+    private readonly loginHeading: Locator = this.page.getByText('Login to your account');
+    private readonly loginEmailInput: Locator = this.page.locator('input[data-qa="login-email"]');
+    private readonly loginPasswordInput: Locator = this.page.locator('input[data-qa="login-password"]');
+    private readonly loginButton: Locator = this.page.locator('button[data-qa="login-button"]');
+    private readonly loginErrorMsg: Locator = this.page.locator('form[action="/login"] p');
+    private readonly signupErrorMsg: Locator = this.page.locator('form[action="/signup"] p');
 
     constructor(page: Page){
         super(page);
-
-        this.newUserSignupHeading = page.getByText('New User Signup');
-        this.signupNameInput = page.locator('input[data-qa="signup-name"]');
-        this.signupEmailInput = page.locator('input[data-qa="signup-email"]');
-        this.signupButton = page.locator('button[data-qa="signup-button"]');
-        this.loginHeading = page.getByText('Login to your account');
-        this.loginEmailInput = page.locator('input[data-qa="login-email"]');
-        this.loginPasswordInput = page.locator('input[data-qa="login-password"]');
-        this.loginButton = page.locator('button[data-qa="login-button"]');
-        this.loginErrorMsg = page.locator('form[action="/login"] p')
-        this.signupErrorMsg = page.locator('form[action="/signup"] p');
-
     }
 
     /** Verifica que o formulário "New User Signup" está visível. */
@@ -66,11 +54,13 @@ export class SignupLoginPage extends BasePage {
 
     /** Verifica a mensagem de erro exibida ao tentar logar com credenciais inválidas. */
     async verifyLoginErrorVisible(): Promise<void> {
+        await expect(this.loginErrorMsg).toBeVisible();
         await expect(this.loginErrorMsg).toContainText('Your email or password is incorrect!');
     }
 
     /** Verifica a mensagem de erro exibida ao tentar cadastrar um email que já existe. */
     async verifySignupErrorVisible(): Promise<void> {
+        await expect(this.signupErrorMsg).toBeVisible();
         await expect(this.signupErrorMsg).toContainText('Email Address already exist!');
     }
 }
