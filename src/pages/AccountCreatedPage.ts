@@ -6,18 +6,17 @@ import { BasePage } from './BasePage';
  * (fluxo de Signup) ser concluído com sucesso.
  */
 export class AccountCreatedPage extends BasePage {
-  private readonly accountCreatedHeading: Locator;
-  private readonly continueButton: Locator;
+  private readonly accountCreatedHeading: Locator = this.page.locator('[data-qa="account-created"]');
+  private readonly continueButton: Locator = this.page.locator('[data-qa="continue-button"]');
 
   constructor(page: Page) {
     super(page);
-    this.accountCreatedHeading = page.locator('[data-qa="account-created"]');
-    this.continueButton = page.locator('[data-qa="continue-button"]');
   }
 
   /** Verifica que a mensagem "Account Created!" está visível. */
   async verifyAccountCreatedVisible(): Promise<void> {
     await expect(this.accountCreatedHeading).toBeVisible();
+    await expect(this.accountCreatedHeading).toHaveText('Account Created!');
   }
 
   /** Clica no botão "Continue", que leva o usuário de volta à home (já logado). */

@@ -9,35 +9,26 @@ import { BasePage } from './BasePage';
  * container certo (ver o comentário no construtor).
  */
 export class ContactUsPage extends BasePage {
-  private readonly getInTouchHeading: Locator;
-  private readonly nameInput: Locator;
-  private readonly emailInput: Locator;
-  private readonly subjectInput: Locator;
-  private readonly messageInput: Locator;
-  private readonly uploadFileInput: Locator;
-  private readonly submitButton: Locator;
-  private readonly successMessage: Locator;
-  private readonly homeButton: Locator;
+  private readonly getInTouchHeading: Locator = this.page.getByText('Get In Touch');
+  private readonly nameInput: Locator = this.page.locator('[data-qa="name"]');
+  private readonly emailInput: Locator = this.page.locator('[data-qa="email"]');
+  private readonly subjectInput: Locator = this.page.locator('[data-qa="subject"]');
+  private readonly messageInput: Locator = this.page.locator('[data-qa="message"]');
+  private readonly uploadFileInput: Locator = this.page.locator('input[name="upload_file"]');
+  private readonly submitButton: Locator = this.page.locator('[data-qa="submit-button"]');
+  // Escopado em #contact-page de propósito: o próprio JS do site roda
+  // $(".alert-success").html(...) no submit, o que (por classe, não id)
+  // também preenche a caixa oculta da newsletter (#success-subscribe,
+  // no rodapé) com esse mesmo texto. Um getByText(...) sem escopo bate
+  // nos dois e dispara uma violação de strict mode do Playwright que
+  // parece só um timeout comum do toBeVisible().
+  private readonly successMessage: Locator = this.page
+    .locator('#contact-page')
+    .getByText('Success! Your details have been submitted successfully.');
+  private readonly homeButton: Locator = this.page.locator('a.btn.btn-success[href="/"]');
 
   constructor(page: Page) {
     super(page);
-    this.getInTouchHeading = page.getByText('Get In Touch');
-    this.nameInput = page.locator('[data-qa="name"]');
-    this.emailInput = page.locator('[data-qa="email"]');
-    this.subjectInput = page.locator('[data-qa="subject"]');
-    this.messageInput = page.locator('[data-qa="message"]');
-    this.uploadFileInput = page.locator('input[name="upload_file"]');
-    this.submitButton = page.locator('[data-qa="submit-button"]');
-    // Escopado em #contact-page de propósito: o próprio JS do site roda
-    // $(".alert-success").html(...) no submit, o que (por classe, não id)
-    // também preenche a caixa oculta da newsletter (#success-subscribe,
-    // no rodapé) com esse mesmo texto. Um getByText(...) sem escopo bate
-    // nos dois e dispara uma violação de strict mode do Playwright que
-    // parece só um timeout comum do toBeVisible().
-    this.successMessage = page
-      .locator('#contact-page')
-      .getByText('Success! Your details have been submitted successfully.');
-    this.homeButton = page.locator('a.btn.btn-success[href="/"]');
   }
 
   /** Verifica que o heading "Get In Touch" (formulário de contato) está visível. */
@@ -97,6 +88,7 @@ export class ContactUsPage extends BasePage {
   /** Verifica a mensagem "Success! Your details have been submitted successfully." */
   async verifySuccessMessageVisible(): Promise<void> {
     await expect(this.successMessage).toBeVisible({ timeout: 10000 });
+    await expect(this.successMessage).toContainText('Success! Your details have been submitted successfully.');
   }
 
   /** Clica no botão "Home" que aparece no lugar do formulário após o sucesso. */

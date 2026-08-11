@@ -7,51 +7,29 @@ import { BasePage } from './BasePage';
  * nascimento, endereço completo e finaliza clicando em "Create Account".
  */
 export class AccountInformationPage extends BasePage {
-    private readonly enterAccountInfoHeading: Locator;
-    private readonly passwordInput: Locator;
-    private readonly titleMr: Locator;
-    private readonly titleMrs: Locator;
-    private readonly daySelect: Locator;
-    private readonly monthSelect: Locator;
-    private readonly yearSelect: Locator;
-    private readonly newsletterCheckbox: Locator;
-    private readonly specialOffersCheckbox: Locator;
-    private readonly firstNameInput: Locator;
-    private readonly lastNameInput: Locator;
-    private readonly companyInput: Locator;
-    private readonly addressInput: Locator;
-    private readonly address2Input: Locator;
-    private readonly countrySelect: Locator;
-    private readonly stateInput: Locator;
-    private readonly cityInput: Locator;
-    private readonly zipcodeInput: Locator;
-    private readonly mobileNumberInput: Locator;
-    private readonly createAccountButton: Locator;
+    private readonly enterAccountInfoHeading: Locator = this.page.getByText('Enter Account Information');
+    private readonly passwordInput: Locator = this.page.locator('input[data-qa="password"]');
+    private readonly titleMr: Locator = this.page.locator('#id_gender1');
+    private readonly titleMrs: Locator = this.page.locator('#id_gender2');
+    private readonly daySelect: Locator = this.page.locator('#days');
+    private readonly monthSelect: Locator = this.page.locator('#months');
+    private readonly yearSelect: Locator = this.page.locator('#years');
+    private readonly newsletterCheckbox: Locator = this.page.locator('#newsletter');
+    private readonly specialOffersCheckbox: Locator = this.page.locator('#optin');
+    private readonly firstNameInput: Locator = this.page.locator('#first_name');
+    private readonly lastNameInput: Locator = this.page.locator('#last_name');
+    private readonly companyInput: Locator = this.page.locator('#company');
+    private readonly addressInput: Locator = this.page.locator('#address1');
+    private readonly address2Input: Locator = this.page.locator('#address2');
+    private readonly countrySelect: Locator = this.page.locator('#country');
+    private readonly stateInput: Locator = this.page.locator('#state');
+    private readonly cityInput: Locator = this.page.locator('#city');
+    private readonly zipcodeInput: Locator = this.page.locator('#zipcode');
+    private readonly mobileNumberInput: Locator = this.page.locator('#mobile_number');
+    private readonly createAccountButton: Locator = this.page.locator('[data-qa="create-account"]');
 
     constructor(page: Page) {
         super(page);
-
-        this.enterAccountInfoHeading = page.getByText('Enter Account Information');
-        this.passwordInput = page.locator('input[data-qa="password"]');
-        this.titleMr = page.locator('#id_gender1');
-        this.titleMrs = page.locator('#id_gender2');
-        this.daySelect = page.locator('#days');
-        this.monthSelect = page.locator('#months');
-        this.yearSelect = page.locator('#years');
-        this.newsletterCheckbox = page.locator('#newsletter');
-        this.specialOffersCheckbox = page.locator('#optin');
-        this.firstNameInput = page.locator('#first_name');
-        this.lastNameInput = page.locator('#last_name');
-        this.companyInput = page.locator('#company');
-        this.addressInput = page.locator('#address1');
-        this.address2Input = page.locator('#address2');
-        this.countrySelect = page.locator('#country');
-        this.stateInput = page.locator('#state');
-        this.cityInput = page.locator('#city');
-        this.zipcodeInput = page.locator('#zipcode');
-        this.mobileNumberInput = page.locator('#mobile_number');
-        this.createAccountButton = page.locator('[data-qa="create-account"]');
-
     }
 
     /** Verifica que o formulário "Enter Account Information" está visível. */

@@ -3,6 +3,8 @@ import { HomePage } from '../src/pages/HomePage';
 import { ProductsPage } from '../src/pages/ProductsPage';
 import { blockAds } from '../src/utils/blockAds';
 
+const SEARCH_TERM = 'Top';
+
 test('Search Product', async ({ page }) => {
   await blockAds(page);
 
@@ -20,7 +22,7 @@ test('Search Product', async ({ page }) => {
   });
 
   await test.step('Buscar por um produto', async () => {
-    await productsPage.searchProduct('Top');
+    await productsPage.searchProduct(SEARCH_TERM);
   });
 
   await test.step('Verificar Searched Products e lista de resultados', async () => {

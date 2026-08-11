@@ -4,6 +4,22 @@ import { SignupLoginPage } from '../src/pages/SignupLoginPage';
 import { AccountInformationPage } from '../src/pages/AccountInformationPage';
 import { AccountCreatedPage } from '../src/pages/AccountCreatedPage';
 import { AccountDeletedPage } from '../src/pages/AccountDeletedPage';
+import {
+  FULL_NAME,
+  FIRST_NAME,
+  LAST_NAME,
+  COMPANY,
+  PASSWORD,
+  DATE_OF_BIRTH,
+  ADDRESS,
+  ADDRESS_2,
+  COUNTRY,
+  STATE,
+  CITY,
+  ZIPCODE,
+  MOBILE_NUMBER,
+  generateRandomEmail,
+} from './testData';
 
 test('Login User with correct email and password', async ({ page }) => {
   const homePage = new HomePage(page);
@@ -12,22 +28,21 @@ test('Login User with correct email and password', async ({ page }) => {
   const accountCreatedPage = new AccountCreatedPage(page);
   const accountDeletedPage = new AccountDeletedPage(page);
 
-  const email = `gabriel${Date.now()}@teste.com`;
-  const password = 'Senha123!';
+  const email = generateRandomEmail();
 
   await test.step('Criar uma conta de teste (setup)', async () => {
     await homePage.open();
     await homePage.clickSignupLogin();
-    await signupLoginPage.fillSignupNameAndEmail('Gabriel Vieira de Sousa', email);
+    await signupLoginPage.fillSignupNameAndEmail(FULL_NAME, email);
     await signupLoginPage.clickSignupButton();
 
     await accountInfoPage.selectTitle('Mr');
-    await accountInfoPage.fillPassword(password);
-    await accountInfoPage.fillDateOfBirth('10', '5', '1998');
+    await accountInfoPage.fillPassword(PASSWORD);
+    await accountInfoPage.fillDateOfBirth(DATE_OF_BIRTH.day, DATE_OF_BIRTH.month, DATE_OF_BIRTH.year);
     await accountInfoPage.checkNewsletterAndOffers();
-    await accountInfoPage.fillNameAndCompany('Gabriel', 'Sousa', 'Minha Empresa');
-    await accountInfoPage.fillAddressAndCountry('Rua Teste, 123', 'Apto 45', 'Canada');
-    await accountInfoPage.fillStateCityZipcodeMobile('SP', 'Sao Paulo', '01000-000', '11999999999');
+    await accountInfoPage.fillNameAndCompany(FIRST_NAME, LAST_NAME, COMPANY);
+    await accountInfoPage.fillAddressAndCountry(ADDRESS, ADDRESS_2, COUNTRY);
+    await accountInfoPage.fillStateCityZipcodeMobile(STATE, CITY, ZIPCODE, MOBILE_NUMBER);
     await accountInfoPage.clickCreateAccountButton();
 
     await accountCreatedPage.verifyAccountCreatedVisible();
@@ -41,7 +56,7 @@ test('Login User with correct email and password', async ({ page }) => {
 
   await test.step('Fazer login com o email e senha corretos', async () => {
     await signupLoginPage.verifyLoginFormVisible();
-    await signupLoginPage.login(email, password);
+    await signupLoginPage.login(email, PASSWORD);
   });
 
   await test.step('Verificar que logou com sucesso', async () => {

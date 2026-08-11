@@ -1,6 +1,12 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../src/pages/HomePage';
 import { ContactUsPage } from '../src/pages/ContactUsPage';
+import { FULL_NAME } from './testData';
+
+const CONTACT_EMAIL = 'gabriel@teste.com';
+const CONTACT_SUBJECT = 'Assunto de teste';
+const CONTACT_MESSAGE = 'Esta é uma mensagem de teste automatizada.';
+const UPLOAD_FILE_PATH = 'fixtures/sample-upload.txt';
 
 test('Contact Us Form', async ({ page }) => {
   const homePage = new HomePage(page);
@@ -17,16 +23,11 @@ test('Contact Us Form', async ({ page }) => {
   });
 
   await test.step('Preencher formulário de contato', async () => {
-    await contactUsPage.fillContactForm(
-      'Gabriel Vieira de Sousa',
-      'gabriel@teste.com',
-      'Assunto de teste',
-      'Esta é uma mensagem de teste automatizada.'
-    );
+    await contactUsPage.fillContactForm(FULL_NAME, CONTACT_EMAIL, CONTACT_SUBJECT, CONTACT_MESSAGE);
   });
 
   await test.step('Fazer upload de um arquivo', async () => {
-    await contactUsPage.uploadFile('fixtures/sample-upload.txt');
+    await contactUsPage.uploadFile(UPLOAD_FILE_PATH);
   });
 
   await test.step('Enviar formulário', async () => {
