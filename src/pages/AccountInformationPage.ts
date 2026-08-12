@@ -1,27 +1,49 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import {
+    ENTER_ACCOUNT_INFO_TEXT,
+    PASSWORD_INPUT_SELECTOR,
+    TITLE_MR_SELECTOR,
+    TITLE_MRS_SELECTOR,
+    DAY_SELECT_SELECTOR,
+    MONTH_SELECT_SELECTOR,
+    YEAR_SELECT_SELECTOR,
+    NEWSLETTER_CHECKBOX_SELECTOR,
+    SPECIAL_OFFERS_CHECKBOX_SELECTOR,
+    FIRST_NAME_INPUT_SELECTOR,
+    LAST_NAME_INPUT_SELECTOR,
+    COMPANY_INPUT_SELECTOR,
+    ADDRESS_INPUT_SELECTOR,
+    ADDRESS_2_INPUT_SELECTOR,
+    COUNTRY_SELECT_SELECTOR,
+    STATE_INPUT_SELECTOR,
+    CITY_INPUT_SELECTOR,
+    ZIPCODE_INPUT_SELECTOR,
+    MOBILE_NUMBER_INPUT_SELECTOR,
+    CREATE_ACCOUNT_BUTTON_SELECTOR,
+} from '../constants/ConstantsAccountInformationPage';
 
 export class AccountInformationPage extends BasePage {
-    private readonly enterAccountInfoHeading: Locator = this.page.getByText('Enter Account Information');
-    private readonly passwordInput: Locator = this.page.locator('input[data-qa="password"]');
-    private readonly titleMr: Locator = this.page.locator('#id_gender1');
-    private readonly titleMrs: Locator = this.page.locator('#id_gender2');
-    private readonly daySelect: Locator = this.page.locator('#days');
-    private readonly monthSelect: Locator = this.page.locator('#months');
-    private readonly yearSelect: Locator = this.page.locator('#years');
-    private readonly newsletterCheckbox: Locator = this.page.locator('#newsletter');
-    private readonly specialOffersCheckbox: Locator = this.page.locator('#optin');
-    private readonly firstNameInput: Locator = this.page.locator('#first_name');
-    private readonly lastNameInput: Locator = this.page.locator('#last_name');
-    private readonly companyInput: Locator = this.page.locator('#company');
-    private readonly addressInput: Locator = this.page.locator('#address1');
-    private readonly address2Input: Locator = this.page.locator('#address2');
-    private readonly countrySelect: Locator = this.page.locator('#country');
-    private readonly stateInput: Locator = this.page.locator('#state');
-    private readonly cityInput: Locator = this.page.locator('#city');
-    private readonly zipcodeInput: Locator = this.page.locator('#zipcode');
-    private readonly mobileNumberInput: Locator = this.page.locator('#mobile_number');
-    private readonly createAccountButton: Locator = this.page.locator('[data-qa="create-account"]');
+    private readonly enterAccountInfoHeading: Locator = this.page.getByText(ENTER_ACCOUNT_INFO_TEXT);
+    private readonly passwordInput: Locator = this.page.locator(PASSWORD_INPUT_SELECTOR);
+    private readonly titleMr: Locator = this.page.locator(TITLE_MR_SELECTOR);
+    private readonly titleMrs: Locator = this.page.locator(TITLE_MRS_SELECTOR);
+    private readonly daySelect: Locator = this.page.locator(DAY_SELECT_SELECTOR);
+    private readonly monthSelect: Locator = this.page.locator(MONTH_SELECT_SELECTOR);
+    private readonly yearSelect: Locator = this.page.locator(YEAR_SELECT_SELECTOR);
+    private readonly newsletterCheckbox: Locator = this.page.locator(NEWSLETTER_CHECKBOX_SELECTOR);
+    private readonly specialOffersCheckbox: Locator = this.page.locator(SPECIAL_OFFERS_CHECKBOX_SELECTOR);
+    private readonly firstNameInput: Locator = this.page.locator(FIRST_NAME_INPUT_SELECTOR);
+    private readonly lastNameInput: Locator = this.page.locator(LAST_NAME_INPUT_SELECTOR);
+    private readonly companyInput: Locator = this.page.locator(COMPANY_INPUT_SELECTOR);
+    private readonly addressInput: Locator = this.page.locator(ADDRESS_INPUT_SELECTOR);
+    private readonly address2Input: Locator = this.page.locator(ADDRESS_2_INPUT_SELECTOR);
+    private readonly countrySelect: Locator = this.page.locator(COUNTRY_SELECT_SELECTOR);
+    private readonly stateInput: Locator = this.page.locator(STATE_INPUT_SELECTOR);
+    private readonly cityInput: Locator = this.page.locator(CITY_INPUT_SELECTOR);
+    private readonly zipcodeInput: Locator = this.page.locator(ZIPCODE_INPUT_SELECTOR);
+    private readonly mobileNumberInput: Locator = this.page.locator(MOBILE_NUMBER_INPUT_SELECTOR);
+    private readonly createAccountButton: Locator = this.page.locator(CREATE_ACCOUNT_BUTTON_SELECTOR);
 
     constructor(page: Page) {
         super(page);

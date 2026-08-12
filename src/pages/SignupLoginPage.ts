@@ -1,17 +1,31 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import {
+    NEW_USER_SIGNUP_TEXT,
+    SIGNUP_NAME_INPUT_SELECTOR,
+    SIGNUP_EMAIL_INPUT_SELECTOR,
+    SIGNUP_BUTTON_SELECTOR,
+    LOGIN_HEADING_TEXT,
+    LOGIN_EMAIL_INPUT_SELECTOR,
+    LOGIN_PASSWORD_INPUT_SELECTOR,
+    LOGIN_BUTTON_SELECTOR,
+    LOGIN_ERROR_MSG_SELECTOR,
+    SIGNUP_ERROR_MSG_SELECTOR,
+    LOGIN_ERROR_TEXT,
+    SIGNUP_ERROR_TEXT,
+} from '../constants/ConstantsSignupLoginPage';
 
 export class SignupLoginPage extends BasePage {
-    private readonly newUserSignupHeading: Locator = this.page.getByText('New User Signup');
-    private readonly signupNameInput: Locator = this.page.locator('input[data-qa="signup-name"]');
-    private readonly signupEmailInput: Locator = this.page.locator('input[data-qa="signup-email"]');
-    private readonly signupButton: Locator = this.page.locator('button[data-qa="signup-button"]');
-    private readonly loginHeading: Locator = this.page.getByText('Login to your account');
-    private readonly loginEmailInput: Locator = this.page.locator('input[data-qa="login-email"]');
-    private readonly loginPasswordInput: Locator = this.page.locator('input[data-qa="login-password"]');
-    private readonly loginButton: Locator = this.page.locator('button[data-qa="login-button"]');
-    private readonly loginErrorMsg: Locator = this.page.locator('form[action="/login"] p');
-    private readonly signupErrorMsg: Locator = this.page.locator('form[action="/signup"] p');
+    private readonly newUserSignupHeading: Locator = this.page.getByText(NEW_USER_SIGNUP_TEXT);
+    private readonly signupNameInput: Locator = this.page.locator(SIGNUP_NAME_INPUT_SELECTOR);
+    private readonly signupEmailInput: Locator = this.page.locator(SIGNUP_EMAIL_INPUT_SELECTOR);
+    private readonly signupButton: Locator = this.page.locator(SIGNUP_BUTTON_SELECTOR);
+    private readonly loginHeading: Locator = this.page.getByText(LOGIN_HEADING_TEXT);
+    private readonly loginEmailInput: Locator = this.page.locator(LOGIN_EMAIL_INPUT_SELECTOR);
+    private readonly loginPasswordInput: Locator = this.page.locator(LOGIN_PASSWORD_INPUT_SELECTOR);
+    private readonly loginButton: Locator = this.page.locator(LOGIN_BUTTON_SELECTOR);
+    private readonly loginErrorMsg: Locator = this.page.locator(LOGIN_ERROR_MSG_SELECTOR);
+    private readonly signupErrorMsg: Locator = this.page.locator(SIGNUP_ERROR_MSG_SELECTOR);
 
     constructor(page: Page){
         super(page);
@@ -42,11 +56,11 @@ export class SignupLoginPage extends BasePage {
 
     async verifyLoginErrorVisible(): Promise<void> {
         await expect(this.loginErrorMsg).toBeVisible();
-        await expect(this.loginErrorMsg).toContainText('Your email or password is incorrect!');
+        await expect(this.loginErrorMsg).toContainText(LOGIN_ERROR_TEXT);
     }
 
     async verifySignupErrorVisible(): Promise<void> {
         await expect(this.signupErrorMsg).toBeVisible();
-        await expect(this.signupErrorMsg).toContainText('Email Address already exist!');
+        await expect(this.signupErrorMsg).toContainText(SIGNUP_ERROR_TEXT);
     }
 }
