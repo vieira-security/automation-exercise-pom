@@ -1,11 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-/**
- * Page Object da página "Enter Account Information", segundo passo do
- * fluxo de cadastro (Signup). Aqui o usuário preenche senha, data de
- * nascimento, endereço completo e finaliza clicando em "Create Account".
- */
 export class AccountInformationPage extends BasePage {
     private readonly enterAccountInfoHeading: Locator = this.page.getByText('Enter Account Information');
     private readonly passwordInput: Locator = this.page.locator('input[data-qa="password"]');
@@ -32,12 +27,10 @@ export class AccountInformationPage extends BasePage {
         super(page);
     }
 
-    /** Verifica que o formulário "Enter Account Information" está visível. */
     async verifyEnterAccountInfoVisible(): Promise<void> {
         await expect(this.enterAccountInfoHeading).toBeVisible();
     }
 
-    /** Seleciona o título/tratamento do usuário ("Mr" ou "Mrs") via radio button. */
     async selectTitle(title: 'Mr' | 'Mrs'): Promise<void> {
          if (title === 'Mr') {
             await this.titleMr.check();
@@ -46,39 +39,33 @@ export class AccountInformationPage extends BasePage {
          }
     }
 
-    /** Preenche o campo de senha da conta. */
     async fillPassword(password: string): Promise<void> {
         await this.passwordInput.fill(password);
     }
 
-    /** Seleciona dia, mês e ano de nascimento nos três <select> correspondentes. */
     async fillDateOfBirth(day: string, month: string, year: string): Promise<void> {
         await this.daySelect.selectOption(day);
         await this.monthSelect.selectOption(month);
         await this.yearSelect.selectOption(year);
     }
 
-    /** Marca os checkboxes de "Sign up for our newsletter!" e "Receive special offers". */
     async checkNewsletterAndOffers(): Promise<void> {
         await this.newsletterCheckbox.check();
         await this.specialOffersCheckbox.check();
     }
 
-    /** Preenche nome, sobrenome e empresa. */
     async fillNameAndCompany(firstName: string, lastName: string, company: string): Promise<void> {
         await this.firstNameInput.fill(firstName);
         await this.lastNameInput.fill(lastName);
         await this.companyInput.fill(company);
     }
 
-    /** Preenche endereço (linha 1 e 2) e seleciona o país no <select>. */
     async fillAddressAndCountry(address: string, address2: string, country: string): Promise<void> {
         await this.addressInput.fill(address);
         await this.address2Input.fill(address2);
         await this.countrySelect.selectOption(country);
     }
 
-    /** Preenche estado, cidade, CEP e número de celular. */
     async fillStateCityZipcodeMobile(state: string, city: string, zipcode: string, mobileNumber: string): Promise<void> {
         await this.stateInput.fill(state);
         await this.cityInput.fill(city);
@@ -86,7 +73,6 @@ export class AccountInformationPage extends BasePage {
         await this.mobileNumberInput.fill(mobileNumber);
     }
 
-    /** Clica no botão "Create Account", finalizando o cadastro. */
     async clickCreateAccountButton(): Promise<void> {
         await this.createAccountButton.click();
     }

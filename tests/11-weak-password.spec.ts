@@ -9,6 +9,7 @@ import {
   FIRST_NAME,
   LAST_NAME,
   COMPANY,
+  TITLE,
   WEAK_PASSWORD,
   DATE_OF_BIRTH,
   ADDRESS,
@@ -21,18 +22,8 @@ import {
   generateRandomEmail,
 } from './testData';
 
-/**
- * Aplica a técnica de PARTIÇÃO DE EQUIVALÊNCIA no campo de senha:
- * em vez de exercitar todas as combinações possíveis de senha, testa
- * um representante da partição "senha fraca" (só letras minúsculas,
- * sem maiúscula, número ou símbolo — ver WEAK_PASSWORD em testData.ts).
- *
- * automationexercise.com NÃO valida a força da senha no cadastro (aceita
- * qualquer valor não vazio no campo), então o resultado esperado aqui é
- * a conta sendo criada normalmente. O teste documenta esse comportamento
- * real do site — se um dia o site passar a exigir senha forte, este
- * teste vai falhar em verifyAccountCreatedVisible() e sinalizar a mudança.
- */
+// Partição de equivalência inválida: senha só com minúsculas (WEAK_PASSWORD).
+// O site não valida força de senha, então a conta deve ser criada normalmente.
 test('Register User with a weak (all lowercase) password', async ({ page }) => {
   const homePage = new HomePage(page);
   const signupLoginPage = new SignupLoginPage(page);
@@ -62,7 +53,7 @@ test('Register User with a weak (all lowercase) password', async ({ page }) => {
   });
 
   await test.step('Preencher os dados da conta com senha fraca (só minúsculas)', async () => {
-    await accountInfoPage.selectTitle('Mr');
+    await accountInfoPage.selectTitle(TITLE);
     await accountInfoPage.fillPassword(WEAK_PASSWORD);
     await accountInfoPage.fillDateOfBirth(DATE_OF_BIRTH.day, DATE_OF_BIRTH.month, DATE_OF_BIRTH.year);
     await accountInfoPage.checkNewsletterAndOffers();
