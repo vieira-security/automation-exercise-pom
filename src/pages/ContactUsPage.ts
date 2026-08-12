@@ -1,21 +1,33 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import {
+  GET_IN_TOUCH_TEXT,
+  NAME_INPUT_SELECTOR,
+  EMAIL_INPUT_SELECTOR,
+  SUBJECT_INPUT_SELECTOR,
+  MESSAGE_INPUT_SELECTOR,
+  UPLOAD_FILE_INPUT_SELECTOR,
+  SUBMIT_BUTTON_SELECTOR,
+  CONTACT_PAGE_SELECTOR,
+  SUCCESS_MESSAGE_TEXT,
+  HOME_BUTTON_SELECTOR,
+} from '../constants/ConstantsContactUsPage';
 
 export class ContactUsPage extends BasePage {
-  private readonly getInTouchHeading: Locator = this.page.getByText('Get In Touch');
-  private readonly nameInput: Locator = this.page.locator('[data-qa="name"]');
-  private readonly emailInput: Locator = this.page.locator('[data-qa="email"]');
-  private readonly subjectInput: Locator = this.page.locator('[data-qa="subject"]');
-  private readonly messageInput: Locator = this.page.locator('[data-qa="message"]');
-  private readonly uploadFileInput: Locator = this.page.locator('input[name="upload_file"]');
-  private readonly submitButton: Locator = this.page.locator('[data-qa="submit-button"]');
+  private readonly getInTouchHeading: Locator = this.page.getByText(GET_IN_TOUCH_TEXT);
+  private readonly nameInput: Locator = this.page.locator(NAME_INPUT_SELECTOR);
+  private readonly emailInput: Locator = this.page.locator(EMAIL_INPUT_SELECTOR);
+  private readonly subjectInput: Locator = this.page.locator(SUBJECT_INPUT_SELECTOR);
+  private readonly messageInput: Locator = this.page.locator(MESSAGE_INPUT_SELECTOR);
+  private readonly uploadFileInput: Locator = this.page.locator(UPLOAD_FILE_INPUT_SELECTOR);
+  private readonly submitButton: Locator = this.page.locator(SUBMIT_BUTTON_SELECTOR);
   // Escopado em #contact-page: o JS do site também preenche a caixa oculta
   // da newsletter com esse mesmo texto, e um getByText sem escopo bate nos
   // dois elementos (violação de strict mode).
   private readonly successMessage: Locator = this.page
-    .locator('#contact-page')
-    .getByText('Success! Your details have been submitted successfully.');
-  private readonly homeButton: Locator = this.page.locator('a.btn.btn-success[href="/"]');
+    .locator(CONTACT_PAGE_SELECTOR)
+    .getByText(SUCCESS_MESSAGE_TEXT);
+  private readonly homeButton: Locator = this.page.locator(HOME_BUTTON_SELECTOR);
 
   constructor(page: Page) {
     super(page);
@@ -58,7 +70,7 @@ export class ContactUsPage extends BasePage {
 
   async verifySuccessMessageVisible(): Promise<void> {
     await expect(this.successMessage).toBeVisible({ timeout: 10000 });
-    await expect(this.successMessage).toContainText('Success! Your details have been submitted successfully.');
+    await expect(this.successMessage).toContainText(SUCCESS_MESSAGE_TEXT);
   }
 
   async clickHomeButton(): Promise<void> {
