@@ -9,8 +9,7 @@ import {
   FIRST_NAME,
   LAST_NAME,
   COMPANY,
-  TITLE,
-  WEAK_PASSWORD,
+  PASSWORD,
   DATE_OF_BIRTH,
   ADDRESS,
   ADDRESS_2,
@@ -22,9 +21,30 @@ import {
   generateRandomEmail,
 } from './testData';
 
-// Partição de equivalência inválida: senha só com minúsculas (WEAK_PASSWORD).
-// O site não valida força de senha, então a conta deve ser criada normalmente.
-test('Register User with a weak (all lowercase) password', async ({ page }) => {
+/**
+ * COBERTURA DE DECISÃO (Decision/Branch Coverage) aplicada ao método
+ * `AccountInformationPage.selectTitle()`:
+ *
+ *   async selectTitle(title: 'Mr' | 'Mrs'): Promise<void> {
+ *     if (title === 'Mr') {
+ *       await this.titleMr.check();   // Ramo 1 ("if")
+ *     } else {
+ *       await this.titleMrs.check();  // Ramo 2 ("else")
+ *     }
+ *   }
+ *
+ * Um if/else só tem 100% de cobertura de decisão quando existe pelo
+ * menos um teste que força a condição a ser VERDADEIRA (Ramo 1) e outro
+ * que força a condição a ser FALSA (Ramo 2). Todos os testes do projeto
+ * até aqui (01, 02, 04, 05 e o antigo 11) chamam selectTitle(TITLE), e
+ * TITLE em testData.ts vale sempre 'Mr' — ou seja, só o Ramo 1 era
+ * exercitado. Cobertura de decisão desse método antes deste teste: 50%.
+ *
+ * Este teste chama selectTitle('Mrs') para exercitar o Ramo 2 pelo menos
+ * uma vez. Com isso, a cobertura de decisão de selectTitle() passa a
+ * ser 100% (ambos os ramos, 'Mr' e 'Mrs', cobertos por pelo menos um teste).
+ */
+test('Cadastro selecionando title Mrs (cobre o ramo else de selectTitle)', async ({ page }) => {
   const homePage = new HomePage(page);
   const signupLoginPage = new SignupLoginPage(page);
   const accountInfoPage = new AccountInformationPage(page);
@@ -52,9 +72,9 @@ test('Register User with a weak (all lowercase) password', async ({ page }) => {
     await accountInfoPage.verifyEnterAccountInfoVisible();
   });
 
-  await test.step('Preencher os dados da conta com senha fraca (só minúsculas)', async () => {
-    await accountInfoPage.selectTitle(TITLE);
-    await accountInfoPage.fillPassword(WEAK_PASSWORD);
+  await test.step('Preencher os dados da conta escolhendo title Mrs', async () => {
+    await accountInfoPage.selectTitle('Mrs');
+    await accountInfoPage.fillPassword(PASSWORD);
     await accountInfoPage.fillDateOfBirth(DATE_OF_BIRTH.day, DATE_OF_BIRTH.month, DATE_OF_BIRTH.year);
     await accountInfoPage.checkNewsletterAndOffers();
     await accountInfoPage.fillNameAndCompany(FIRST_NAME, LAST_NAME, COMPANY);
@@ -66,7 +86,7 @@ test('Register User with a weak (all lowercase) password', async ({ page }) => {
     await accountInfoPage.clickCreateAccountButton();
   });
 
-  await test.step('Verificar que o site aceitou a senha fraca (conta criada)', async () => {
+  await test.step('Verificar Account Created e clicar Continue', async () => {
     await accountCreatedPage.verifyAccountCreatedVisible();
     await accountCreatedPage.clickContinueButton();
   });

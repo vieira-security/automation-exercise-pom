@@ -7,9 +7,12 @@ export const COMPANY = 'Minha Empresa';
 
 export const TITLE = 'Mr';
 
-export const PASSWORD = 'Senha123!';
-// Só minúsculas, sem número/símbolo — usada em 11-weak-password.spec.ts.
-export const WEAK_PASSWORD = 'senhafraca';
+// As 4 constantes abaixo representam as 4 partições de equivalência do
+// campo de senha, exercitadas em tests/11-password-partitions.spec.ts.
+export const PASSWORD = 'Senha123!'; // partição válida: maiúscula + minúscula + número
+export const WEAK_PASSWORD = 'senhafraca'; // partição inválida: só minúsculas
+export const SHORT_PASSWORD = '123'; // partição inválida: muito curta
+export const EMPTY_PASSWORD = ''; // partição inválida: campo vazio
 
 export const DATE_OF_BIRTH = { day: '10', month: '5', year: '1998' };
 
@@ -21,6 +24,10 @@ export const CITY = 'Sao Paulo';
 export const ZIPCODE = '01000-000';
 export const MOBILE_NUMBER = '11999999999';
 
+// Date.now() sozinho tem resolução de 1ms: com os testes rodando em
+// paralelo (fullyParallel: true), duas specs podem gerar o mesmo
+// timestamp e colidir no mesmo email. O sufixo aleatório evita isso.
 export function generateRandomEmail(prefix: string = 'gabriel'): string {
-  return `${prefix}${Date.now()}@teste.com`;
+  const randomSuffix = Math.floor(Math.random() * 1_000_000);
+  return `${prefix}${Date.now()}${randomSuffix}@teste.com`;
 }
