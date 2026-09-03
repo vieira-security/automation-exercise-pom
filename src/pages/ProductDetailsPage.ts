@@ -10,6 +10,8 @@ import {
   AVAILABILITY_TEXT,
   CONDITION_TEXT,
   BRAND_TEXT,
+  CART_MODAL_VIEW_CART_LINK_SELECTOR,
+  CART_QUANTITY_VALUE_SELECTOR,
 } from '../constants/ConstantsProductDetailsPage';
 
 export class ProductDetailsPage extends BasePage {
@@ -21,6 +23,8 @@ export class ProductDetailsPage extends BasePage {
   private readonly productBrand: Locator = this.page.locator(PRODUCT_INFO_PARAGRAPH_SELECTOR).filter({ hasText: BRAND_TEXT });
   private readonly quantityInput: Locator = this.page.locator(QUANTITY_INPUT_SELECTOR);
   private readonly addToCartButton: Locator = this.page.locator(ADD_TO_CART_BUTTON_SELECTOR);
+  private readonly viewCartModalLink: Locator = this.page.locator(CART_MODAL_VIEW_CART_LINK_SELECTOR);
+  private readonly cartQuantityValue: Locator = this.page.locator(CART_QUANTITY_VALUE_SELECTOR);
 
   constructor(page: Page) {
     super(page);
@@ -49,5 +53,19 @@ export class ProductDetailsPage extends BasePage {
 
   async clickAddToCart(): Promise<void> {
     await this.addToCartButton.click();
+  }
+
+  // Após "Add to Cart" o site abre um modal "Added!" com um link "View
+  // Cart"; usamos esse link em vez de navegar direto pra /view_cart pra
+  // seguir o mesmo fluxo que um usuário real seguiria.
+  async goToCartFromAddedModal(): Promise<void> {
+    await this.viewCartModalLink.click();
+  }
+
+  // Lê a quantidade exibida na página /view_cart para o produto recém
+  // adicionado. Útil para BVA: confirma se o site respeita (ou não) o
+  // atributo min="1" do campo quantity ao exibir o valor no carrinho.
+  async verifyQuantityInCart(expectedQuantity: string): Promise<void> {
+    await expect(this.cartQuantityValue.first()).toHaveText(expectedQuantity);
   }
 }
